@@ -4,7 +4,7 @@
       "path": "/var/www/html/wp-content/themes/<theme-name>"
     },
     {
-      "path": "/var/www/html/wp-content/plugins/<theme-name>"
+      "path": "/var/www/html/wp-content/plugins/<plugin-name>"
     }
   ],
   "settings": {}

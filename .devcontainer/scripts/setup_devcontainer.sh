@@ -3,7 +3,7 @@
 set -eu
 
 SITE_NAME="My Wordpress Site"
-SITE_URL="yoursite.loc"
+SITE_URL="localhost"
 PUBLIC_SITE_URL="yoursite.com"
 SITE_PROJECT_NAME="yoursite_loc"
 THEME_NAME="custom-theme"
