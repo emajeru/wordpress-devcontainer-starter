@@ -1,0 +1,13 @@
+{
+  "name": "<site-name>",
+  "dockerComposeFile": [
+    "docker-compose.yml",
+    "docker-compose.extend.yml"
+  ],
+  "service": "wordpress",
+  "workspaceFolder": "/workspace",
+
+  "postCreateCommand": "(cd /var/www/html && /tmp/cli/wp_configure.sh)",
+  "remoteUser": "root",
+  "shutdownAction": "stopCompose"
+}

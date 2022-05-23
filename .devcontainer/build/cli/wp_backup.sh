@@ -1,0 +1,2 @@
+wp export --post_type=attachment --dir=/tmp/fixtures/ --filename_format='{site}.wordpress.{n}.attachments.xml'
+wp export --post_type=post,page,wpcf7_contact_form,team,job,project --dir=/tmp/fixtures/ --filename_format='{site}.wordpress.{n}.posts.xml'

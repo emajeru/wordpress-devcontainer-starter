@@ -1,0 +1,76 @@
+version: "3.3"
+services:
+  wordpress:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    user: "33:33"
+    volumes:
+      - wordpress-volume:/var/www/html
+      - ../src:/var/www/html/wp-content/themes/<theme-name>
+      - ../src-plugin:/var/www/html/wp-content/plugins/<plugin-name>
+      - ./uploads:/var/www/html/wp-content/uploads
+      - ./build/cli:/tmp/cli
+      - ./build/fixtures:/tmp/fixtures
+      - ./build/workspace/project.code-workspace:/workspace/project.code-workspace
+    ports:
+      - "9000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    env_file: .env
+    environment:
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'IMPORT_DEBUG', true );
+    networks:
+      - lb_network
+      - data_network
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - wordpress-volume:/var/www/html
+      - ../src:/var/www/html/wp-content/themes/<theme-name>
+      - ../src-plugin:/var/www/html/wp-content/plugins/<plugin-name>
+      - ./uploads:/var/www/html/wp-content/uploads
+      - ./logs/nginx:/var/log/nginx
+      - ./build/nginx/conf.d/wordpress.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - wordpress
+    networks:
+      lb_network:
+        aliases:
+          - <site-url>
+  
+  mysql:
+    image: mariadb:latest
+    volumes:
+      - mysql-volume:/var/lib/mysql
+      # - ./build/fixtures/database.sql:/docker-entrypoint-initdb.d/datadump.sql
+    ports:
+      - "3306"
+    env_file: .env
+    networks:
+      - data_network
+    healthcheck:
+      test: "mysqladmin -h localhost -p${MARIADB_ROOT_PASSWORD} ping || exit 1"
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  wordpress-volume:
+    driver: local
+  mysql-volume:
+    driver: local
+
+networks:
+  lb_network:
+    driver: bridge
+  data_network:
+    driver: bridge
