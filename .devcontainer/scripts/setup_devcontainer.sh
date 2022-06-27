@@ -13,9 +13,13 @@ cp ./.templates/template.Makefile ../../Makefile
 cp ./.templates/template.docker-compose.yml ../docker-compose.yml
 cp ./.templates/template.wp_configure.sh ../build/cli/wp_configure.sh
 cp ./.templates/template.devcontainer.json ../devcontainer.json
+
+mkdir -p ../build/workspace
 cp ./.templates/template.project.code-workspace ../build/workspace/project.code-workspace
 cp ./.templates/template.root.env ../../.env
 cp ./.templates/template.env ../.env
+
+mkdir -p ../build/nginx/conf.d
 cp ./.templates/template.wordpress.conf ../build/nginx/conf.d/wordpress.conf
 cp ./.templates/template.wordpress-ssl.conf ../build/nginx/conf.d/wordpress-ssl.conf
 cp ./.templates/template.wordpress-ssl-file-proxy.conf ../build/nginx/conf.d/wordpress-ssl-file-proxy.conf
